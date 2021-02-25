@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">PeopleDates</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Пароль</string>
+    <string name="action_sign_in">Войти</string>
+    <string name="action_sign_in_short">Войти</string>
+    <string name="label_name">Имя</string>
+    <string name="label_url">Url</string>
+    <string name="answer_ok">OK</string>
+    <string name="answer_cancel">Отмена</string>
+    <string name="empty_field">Поле не заполнено</string>
+    <string name="invalid_url">Некорректный Url</string>
+    <string name="invalid_url_without_page">Добавьте адрес страницы</string>
+    <string name="group_name_exists">Группа с таким именем уже существует</string>
+    <string name="group_url_exists">Группа с таким Url уже существует</string>
+</resources>
