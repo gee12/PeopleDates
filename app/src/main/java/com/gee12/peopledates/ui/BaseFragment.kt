@@ -1,14 +1,11 @@
 package com.gee12.peopledates.ui
 
-import android.content.Context
-import androidx.fragment.app.Fragment
-import dagger.android.support.AndroidSupportInjection
+import dagger.android.support.DaggerFragment
 
-open class BaseFragment : Fragment() {
+open class BaseFragment : DaggerFragment() {
 
-    override fun onAttach(context: Context) {
-        AndroidSupportInjection.inject(this)
-        super.onAttach(context)
+    fun setTitle(title: String) {
+//        activity?.actionBar?.title = title
+        requireActivity().title = title
     }
-
 }

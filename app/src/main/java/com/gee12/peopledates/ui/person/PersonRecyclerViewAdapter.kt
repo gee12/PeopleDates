@@ -11,6 +11,7 @@ import coil.ImageLoader
 import coil.load
 import coil.transform.CircleCropTransformation
 import com.gee12.peopledates.data.model.Person
+import com.gee12.peopledates.utils.Utils
 
 
 class PersonRecyclerViewAdapter(

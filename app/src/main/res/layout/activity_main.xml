@@ -17,10 +17,13 @@
     android:id="@+id/layout_drawer"
     tools:context=".ui.MainActivity">
 
-    <FrameLayout
+    <fragment
         android:id="@+id/persons_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        app:navGraph="@navigation/nav_graph"
+        app:defaultNavHost="true" />
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view_left"
@@ -32,10 +35,15 @@
 <!--        app:layout_constraintStart_toStartOf="parent"-->
         <!--        app:headerLayout="@layout/nav_view_header_left"-->
 
+<!--        <androidx.fragment.app.FragmentContainerView-->
+<!--        <fragment-->
         <FrameLayout
             android:id="@+id/groups_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent" />
+<!--        android:name="androidx.navigation.fragment.NavHostFragment"-->
+<!--        app:navGraph="@navigation/nav_graph"-->
+<!--        app:defaultNavHost="false"-->
 
     </com.google.android.material.navigation.NavigationView>
 

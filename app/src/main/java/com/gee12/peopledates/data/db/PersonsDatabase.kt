@@ -7,7 +7,10 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 
 
-@Database(entities = [PersonEntity::class, GroupEntity::class], version = 8)
+@Database(
+    entities = [PersonEntity::class, GroupEntity::class],
+    version = 8,
+    exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class PersonsDatabase : RoomDatabase() {
 

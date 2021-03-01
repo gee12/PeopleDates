@@ -3,6 +3,7 @@ package com.gee12.peopledates
 import android.text.TextUtils
 import com.gee12.peopledates.data.model.Group
 import com.gee12.peopledates.data.model.Person
+import com.gee12.peopledates.utils.Utils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.jsoup.Jsoup
@@ -19,9 +20,9 @@ object HtmlParser {
     private const val COL_PHOTO = 3
     private const val COL_PROF = 4
     private const val COL_INFO = 5
-    private const val COL_RELIG = 6
-    private const val COL_DAY_MONTH_DEATH = 7
-    private const val COL_YEAR_DEATH = 8
+//    private const val COL_RELIG = 6
+    private const val COL_DAY_MONTH_DEATH = 6
+    private const val COL_YEAR_DEATH = 7
     private const val DATE_FORMAT = "dd MMMM yyyy"
 
     suspend fun parsePersonsFromHtmlTable(html: String, group: Group/*, bitmapLoader: IBitmapLoader*/): List<Person>
@@ -37,7 +38,7 @@ object HtmlParser {
             var imageName: String? = ""
             var prof: String? = ""
             var info: String? = ""
-            var relig: String? = ""
+//            var relig: String? = ""
             var dayMonthDeath: String? = ""
             var yearDeath: String? = ""
 
@@ -68,9 +69,9 @@ object HtmlParser {
                     COL_INFO -> {
                         info = column.text()
                     }
-                    COL_RELIG -> {
-                        relig = column.text()
-                    }
+//                    COL_RELIG -> {
+//                        relig = column.text()
+//                    }
                     COL_DAY_MONTH_DEATH -> {
                         dayMonthDeath = column.text()
                     }
@@ -84,7 +85,8 @@ object HtmlParser {
                 dayMonthBirth.plus( " ").plus(yearBirth) ?: "", DATE_FORMAT) ?: continue
             val dateDeath: Date? = Utils.parseDate(
                 dayMonthDeath?.plus( " ")?.plus(yearDeath) ?: "", DATE_FORMAT)
-            val imageUrl = imageName?.let { group.url.plus(imageName) }
+//            val imageUrl = imageName?.let { group.url.plus(imageName) }
+            val imageUrl = imageName?.let { "${BuildConfig.BASE_URL}repositories/${group.path}${imageName}" }
 
             res.add(Person(null, group, name, dateBirth, dateDeath, prof, info, imageUrl).apply {
 //                imageName?.let {

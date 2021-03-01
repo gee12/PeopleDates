@@ -1,6 +1,5 @@
 package com.gee12.peopledates.ui.group
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,15 +7,15 @@ import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.gee12.peopledates.*
 import com.gee12.peopledates.data.model.Group
 import com.gee12.peopledates.ui.BaseFragment
+import com.gee12.peopledates.ui.getNavigationController
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
 
 class GroupsFragment : BaseFragment(), GroupDialogFragment.ConfirmationListener {
@@ -26,10 +25,10 @@ class GroupsFragment : BaseFragment(), GroupDialogFragment.ConfirmationListener 
     }
 
     @Inject
-    lateinit var viewModel: GroupsViewModel
+    lateinit var viewModel: GroupViewModel
 
-    @Inject
-    lateinit var groupDialogFragment: GroupDialogFragment
+//    @Inject
+//    lateinit var groupDialogFragment: GroupDialogFragment
 
     private lateinit var recyclerAdapter: GroupRecyclerViewAdapter
 
@@ -51,8 +50,7 @@ class GroupsFragment : BaseFragment(), GroupDialogFragment.ConfirmationListener 
         val navigationController = getNavigationController()
 
         // заменено на DI
-        /*viewModel = ViewModelProvider(
-            this,
+        /*viewModel = ViewModelProvider(this,
             ViewModelFactory(requireContext().applicationContext)
         ).get(GroupsViewModel::class.java)*/
 
@@ -71,10 +69,10 @@ class GroupsFragment : BaseFragment(), GroupDialogFragment.ConfirmationListener 
             setOnClickListener { createGroup() }
         }
 
-        viewModel.groupsList.observe(this.viewLifecycleOwner, Observer { updateAdapter(it) })
-        viewModel.successMessage.observe(this.viewLifecycleOwner, Observer { showMessage(it) })
-        viewModel.errorMessage.observe(this.viewLifecycleOwner, Observer { showError(it) })
-        viewModel.loadingState.observe(this.viewLifecycleOwner, Observer { showLoading(it) })
+        viewModel.groupsList.observe(viewLifecycleOwner, Observer { updateAdapter(it) })
+        viewModel.successMessage.observe(viewLifecycleOwner, Observer { showMessage(it) })
+        viewModel.errorMessage.observe(viewLifecycleOwner, Observer { showError(it) })
+        viewModel.loadingState.observe(viewLifecycleOwner, Observer { showLoading(it) })
 
         viewModel.loadGroups()
     }
@@ -94,7 +92,10 @@ class GroupsFragment : BaseFragment(), GroupDialogFragment.ConfirmationListener 
     private fun showGroupDialog(id: Int?) {
         val ft: FragmentTransaction = requireActivity().supportFragmentManager.beginTransaction()
 //        GroupDialogFragment.newInstance(id).apply {
-        groupDialogFragment.apply {
+        (requireActivity().supportFragmentManager
+            .findFragmentByTag( GroupDialogFragment::class.qualifiedName) as DialogFragment)
+            .apply {
+//        groupDialogFragment.apply {
             arguments = GroupDialogFragment.newArgBundle(id)
             setTargetFragment(this@GroupsFragment, 300)
             show(ft, "GroupDialogFragment")

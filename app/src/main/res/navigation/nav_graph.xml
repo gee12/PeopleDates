@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/loginFragment">
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.gee12.peopledates.ui.login.LoginFragment"
+        android:label="Авторизация"
+        tools:layout="@layout/fragment_login" >
+<!--        <action-->
+<!--            android:id="@+id/showPersonsFragment"-->
+<!--            app:destination="@id/personsFragment"-->
+<!--            app:popUpToInclusive="false" />-->
+    </fragment>
+    <fragment
+        android:id="@+id/personsFragment"
+        android:name="com.gee12.peopledates.ui.person.PersonsFragment"
+        android:label="Личности"
+        tools:layout="@layout/fragment_persons" >
+        <argument android:name="groupId"
+            app:argType="integer"
+            android:defaultValue="-1" />
+        <action
+            android:id="@+id/showDetailsFragment"
+            app:destination="@id/detailsFragment"
+            app:popUpToInclusive="false" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailsFragment"
+        android:name="com.gee12.peopledates.ui.details.DetailsFragment"
+        android:label="Подробно"
+        tools:layout="@layout/fragment_details" >
+        <argument
+            android:name="personId"
+            app:argType="integer" />
+    </fragment>
+    <action
+        android:id="@+id/showPersonsFragment"
+        app:destination="@id/personsFragment" />
+<!--    <fragment-->
+<!--        android:id="@+id/groupsFragment"-->
+<!--        android:name="com.gee12.peopledates.ui.group.GroupsFragment"-->
+<!--        android:label="fragment_groups"-->
+<!--        tools:layout="@layout/fragment_groups" />-->
+</navigation>

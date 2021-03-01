@@ -1,9 +1,6 @@
 package com.gee12.peopledates.data.model
 
-import android.graphics.Bitmap
-import android.os.Parcel
-import android.os.Parcelable
-import com.gee12.peopledates.Utils
+import com.gee12.peopledates.utils.Utils
 import java.util.*
 
 data class Person(

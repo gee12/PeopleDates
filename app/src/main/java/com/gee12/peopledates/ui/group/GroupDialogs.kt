@@ -1,19 +1,14 @@
 package com.gee12.peopledates.ui.group
 
-import android.app.Dialog
 import android.content.Context
 import android.content.DialogInterface
 import android.text.TextUtils
-import android.view.View
-import android.widget.Button
 import android.widget.EditText
-import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import com.gee12.peopledates.R
-import com.gee12.peopledates.Utils
+import com.gee12.peopledates.utils.Utils
 import com.gee12.peopledates.data.model.Group
 import com.gee12.peopledates.ui.AskDialogBuilder
-import com.gee12.peopledates.ui.afterTextChanged
 
 
 @Deprecated("")

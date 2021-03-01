@@ -9,18 +9,16 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
-import com.gee12.peopledates.GroupsViewModel
 import com.gee12.peopledates.R
 import com.gee12.peopledates.data.model.Group
 import com.gee12.peopledates.ui.afterTextChanged
-import com.gee12.peopledates.ui.details.DetailsFragment
-import dagger.android.support.AndroidSupportInjection
+import dagger.android.support.DaggerDialogFragment
 import javax.inject.Inject
 
 
-class GroupDialogFragment : DialogFragment() {
+//class GroupDialogFragment @Inject constructor(): DaggerDialogFragment() {
+class GroupDialogFragment : DaggerDialogFragment() {
 
     companion object {
         const val ARG_GROUP_ID = "ARG_GROUP_ID"
@@ -41,7 +39,7 @@ class GroupDialogFragment : DialogFragment() {
     }
 
     @Inject
-    lateinit var viewModel: GroupsViewModel
+    lateinit var viewModel: GroupViewModel
 
     private lateinit var listener: ConfirmationListener
 
@@ -52,12 +50,14 @@ class GroupDialogFragment : DialogFragment() {
 
 
     override fun onAttach(context: Context) {
-        AndroidSupportInjection.inject(this)
+//        AndroidSupportInjection.inject(this)
         super.onAttach(context)
 
         try {
 //            listener = activity as ConfirmationListener
-            listener = targetFragment as ConfirmationListener
+            targetFragment?.let {
+                listener = targetFragment as ConfirmationListener
+            }
         } catch (e: ClassCastException) {
             throw ClassCastException(targetFragment.toString() + " must implement ConfirmationListener")
         }
@@ -68,9 +68,8 @@ class GroupDialogFragment : DialogFragment() {
         val id = arguments?.getInt(ARG_GROUP_ID)
         val isNew = (id == null)
 
-        // viewModel
-        /*viewModel = ViewModelProvider(
-            this,
+        // заменено на DI
+        /*viewModel = ViewModelProvider(this,
             ViewModelFactory(requireContext().applicationContext)
         ).get(GroupsViewModel::class.java)*/
 
@@ -111,10 +110,10 @@ class GroupDialogFragment : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.groupDialogState.observe(this.viewLifecycleOwner, Observer { updateState(it) })
+        viewModel.groupDialogState.observe(viewLifecycleOwner, Observer { updateState(it) })
 
         arguments?.getInt(ARG_GROUP_ID)?.let { id ->
-            viewModel.group.observe(this.viewLifecycleOwner, Observer { updateFields(it) })
+            viewModel.group.observe(viewLifecycleOwner, Observer { updateFields(it) })
             viewModel.setGroupId(id)
         }
     }

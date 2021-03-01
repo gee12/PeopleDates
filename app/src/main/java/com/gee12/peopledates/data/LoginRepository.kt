@@ -1,8 +1,12 @@
 package com.gee12.peopledates.data
 
 import com.gee12.peopledates.network.AccessTokenWrapper
+import com.gee12.peopledates.network.repo.BaseRemoteRepo
 import com.gee12.peopledates.network.LoginDataSource
-import io.reactivex.Single
+import com.gee12.peopledates.network.Result
+import com.gee12.peopledates.network.data.AccessToken
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 /**
@@ -10,10 +14,9 @@ import javax.inject.Inject
  * maintains an in-memory cache of login status and user credentials information.
  */
 
-//class LoginRepository @Inject constructor(val dataSource: LoginDataSource) {
 class LoginRepository @Inject constructor(private val loginDataSource: LoginDataSource,
                                           private val accessTokenWrapper: AccessTokenWrapper
-) {
+) : BaseRemoteRepo() {
 
     // in-memory cache of the loggedInUser object
 //    var user: LoggedInUser? = null
@@ -34,19 +37,16 @@ class LoginRepository @Inject constructor(private val loginDataSource: LoginData
         accessTokenWrapper.saveAccessToken(null)
     }
 
-    fun login(username: String, password: String): Result<Any> {
+    suspend fun login(username: String, password: String) = withContext(Dispatchers.IO) {
         // handle login
-//        val result = dataSource.login(username, password)
         val result = loginDataSource.login(username, password)
 
         if (result is Result.Success) {
-             result.data.flatMap {
+            result.data?.let {
                 setLoggedInUser(it)
-                Single.just(it)
             }
         }
-
-        return result
+        result
     }
 
     private fun setLoggedInUser(accessToken: AccessToken) {

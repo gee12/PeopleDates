@@ -1,6 +1,5 @@
 package com.gee12.peopledates.ui.details
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,17 +7,16 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.navArgs
+import coil.ImageLoader
 import coil.load
-import com.gee12.peopledates.PersonsViewModel
+import com.gee12.peopledates.ui.person.PersonViewModel
 import com.gee12.peopledates.R
-import com.gee12.peopledates.Utils
+import com.gee12.peopledates.utils.Utils
 import com.gee12.peopledates.data.model.Person
-import com.gee12.peopledates.network.ApiFactory
 import com.gee12.peopledates.ui.BaseFragment
-import com.gee12.peopledates.ui.person.PersonsFragment
-import dagger.android.support.AndroidSupportInjection
+import com.gee12.peopledates.ui.person.PersonsFragmentArgs
 import javax.inject.Inject
 
 
@@ -27,10 +25,10 @@ class DetailsFragment : BaseFragment() {
     companion object {
         const val ARG_ID = "ARG_ID"
 
-        @JvmStatic
-        fun newInstance(id: Int) = DetailsFragment().apply {
-            arguments = newArgBundle(id)
-        }
+//        @JvmStatic
+//        fun newInstance(id: Int) = DetailsFragment().apply {
+//            arguments = newArgBundle(id)
+//        }
 
         fun newArgBundle(id: Int?) = Bundle().apply {
             id?.let { putInt(ARG_ID, id) }
@@ -38,7 +36,12 @@ class DetailsFragment : BaseFragment() {
     }
 
     @Inject
-    lateinit var personsViewModel: PersonsViewModel
+    lateinit var personsViewModel: PersonViewModel
+
+    @Inject
+    lateinit var imageLoader: ImageLoader
+
+    private val params by navArgs<DetailsFragmentArgs>()
 
 
     override fun onCreateView(
@@ -52,21 +55,23 @@ class DetailsFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val id = arguments?.getInt(ARG_ID)
-        if (id == null) {
+//        val id = arguments?.getInt(ARG_ID)
+        val id = params.personId
+        if (id < 0) {
             parentFragmentManager.popBackStack()
             return
         }
 
         // заменено на DI
-        /*personsViewModel = ViewModelProvider(this,
+       /* personsViewModel = ViewModelProvider(this,
                 ViewModelFactory(requireContext().applicationContext)
         ).get(PersonsViewModel::class.java)*/
 
-        personsViewModel.person.observe(this.viewLifecycleOwner, Observer { updatePerson(it) })
+        personsViewModel.person.observe(viewLifecycleOwner, Observer { updatePerson(it) })
 
         personsViewModel.setPersonId(id)
 
+        setTitle("Детальная информация")
     }
 
     private fun initViews(view: View, person: Person) {
@@ -80,12 +85,11 @@ class DetailsFragment : BaseFragment() {
         headerView.findViewById<TextView>(R.id.tv_person_prof).text = person.prof
         headerView.findViewById<ImageView>(R.id.iv_person_photo).load(
                 person.imageUrl,
-                ApiFactory.buildImageLoader(requireContext().applicationContext)
+                imageLoader
         ) {
             crossfade(true)
             placeholder(android.R.drawable.ic_menu_gallery)
             error(android.R.drawable.ic_menu_delete)
-//            transformations(CircleCropTransformation())
         }
         view.findViewById<TextView>(R.id.tv_info).text = person.info
     }

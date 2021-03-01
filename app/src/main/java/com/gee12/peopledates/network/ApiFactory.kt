@@ -3,20 +3,14 @@ package com.gee12.peopledates.network
 import android.content.Context
 import coil.ImageLoader
 import com.gee12.peopledates.BuildConfig
-import com.gee12.peopledates.SharedPrefApi
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
-import okhttp3.Authenticator
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
-import java.util.concurrent.TimeUnit
 
+@Deprecated("")
 object ApiFactory {
-
+/*
 //    private const val BASE_URL = "https://api.bitbucket.org/2.0/"
 //    private const val API_KEY_HEADER = "x-api-key"
     private const val API_KEY_PARAM = "access_token"
@@ -57,7 +51,7 @@ object ApiFactory {
 //        .build()
 //    var imageLoader: ImageLoader? = null
 
-    // TODO: убрать в NetworkModule
+    // ---TODO: убрать в NetworkModule
     fun buildImageLoader(context: Context): ImageLoader = ImageLoader.Builder(context)
         .okHttpClient(httpClient)
         .build()
@@ -88,5 +82,5 @@ object ApiFactory {
 //
 //    val personsApi: IPersonsApi = generate(BASE_URL, IPersonsApi::class.java, gson,
 //        tokenAuthenticator, arrayOf(authInterceptor, loggingInterceptor))
-
+*/
 }
